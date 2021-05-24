@@ -10,16 +10,13 @@
 
   <body class = "body">
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-      <a class="navbar-brand" href="/">Home</a>
+      <a class="navbar-brand" href="/homepage">Home</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
 
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
-          <li class="nav-item active">
-            <a class="nav-link" href="/login">Log In<span class="sr-only">(current)</span></a>
-          </li>
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="/" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
               Choose what to do!
@@ -49,73 +46,40 @@
 
   <div class="jumbotron">
       <h1 class="display-4">Compare Your Time!</h1>
-      <p class="lead">Choose which time you would like to compare and see where it stacks up!</p>
+      <p class="lead">Below are some of the famous Track Events list in history!</p>
       <hr class="my-4">
-      <p>Follow the directions below!</p>
+      <p>See where you stack up!</p>
       <p class="lead">
-      <div class="btn-group">
-        <button class="btn btn-info btn-lg" type="button">
-          Toggle Which Time to Compare!
-        </button>
-        <button type="button" class="btn btn-lg btn-info dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          <span class="sr-only"></span>
-        </button>
-        <div class="dropdown-menu">
-          <a class="dropdown-item" href="#">Compare Your Best Time</a>
-          <a class="dropdown-item" href="#">Compare Your Slowest Time</a>
-          <a class="dropdown-item" href="#">Enter a Time Manually</a>
-        </div>
-      </div>
+      <h1> Your Best Pace is: </h1>
+      <h2> Pace: {{max}} mi/hr</h2>
+      <h1> Your Worst Pace is: </h1>
+      <h2> Pace: {{min}} mi/hr</h2>
       </p>
     </div>
 
-    <div class="container">
-      <h1> Your Time is: </h1>
-      <h2> Distance: 1.00 miles</h2>
-      <h2> Time: 8min, 8s</h2>
-      <h2> Pace: 7.3 mi/hr</h2>
-    </div>
 
-    <h1> Table (scraped from Wikipedia)</h1>
-   <table class="table table-dark">
-  <thead>
-    <tr>
-      <th scope="col">Entry No.</th>
-      <th scope="col">Name of Runner</th>
-      <th scope="col">Run Distance</th>
-      <th scope="col">Run Time</th>
-      <th scope="col">Pace</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th scope="row">1</th>
-      <td>Steve M</td>
-      <td>13.11 miles</td>
-      <td>59 min</td>
-      <td>13.25 mi/hr</td>
-    </tr>
-      <th scope="row">2</th>
-      <td>Mark T</td>
-      <td>4 miles</td>
-      <td>16min 42s</td>
-      <td>13 mi/hr</td>
+
+  {%block content %}
+  <div class = "pre-scrollable">
+      <table class = "table table-dark">
+         <tr>
+          {% for key, val in test_dict.items() %}
+              <th> {{ key }} </th>
+          {% endfor %}
+        </tr>
       
-    </tr>
-    <tr>
-      <th scope="row">3</th>
-      <td>Larry</td>
-      <td>26.22 miles </td>
-      <td>2hr 18min</td>
-      <td>12.5 mi/hr</td>
-    </tr>
-  </tbody>
-</table>
-
-
-
-
-
+        {% for key, val in new_dict.items() %}
+        <tr>
+        {% for item in val %}
+              <td> {{ item }} </td>
+        {% endfor %}
+        </tr>
+        {% endfor %}
+      
+      
+      </table>
+  {% endblock %}
+</div>
 
 
 

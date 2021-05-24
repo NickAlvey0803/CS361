@@ -1,4 +1,4 @@
-<!-- Change Password Page -->
+<!-- Create Account Page -->
 
 <html>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
@@ -10,24 +10,17 @@
 
   <body class = "body">
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-      <a class="navbar-brand" href="/homepage">Home</a>
+      <a class="navbar-brand" href="/">Home</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
-
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="/" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-              Choose what to do!
-            </a>
-            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <a class="dropdown-item" href="/logrun">Log Your Run</a>
-              <a class="dropdown-item" href="/workouts">View Your Workouts</a>
-              <a class="dropdown-item" href="/comparetime">Compare Your Times</a>
-              <div class="dropdown-divider"></div>
-              <a class="dropdown-item" href="/changepass">Change Your Password</a>
-            </div>
+          <li class="nav-item active">
+            <a class="nav-link" href="/login">Log In<span class="sr-only">(current)</span></a>
+          </li>
+          <li class="nav-item active">
+            <a class="nav-link" href="/createaccount">Create Account<span class="sr-only">(current)</span></a>
           </li>
 <!--           <li class="nav-item">
             <a class="nav-link disabled" href="#">Disabled</a>
@@ -42,27 +35,27 @@
 
 
 
-
-
-
     <!-- Welcome Page! -->
 
 
-    {%block title %} Update Your Password {% endblock %}
-    {%block content %}
-      <div class = "container">
-        <h1>Update Password </h1>
-        <br/>
-        <form action="/changepass" METHOD = "POST">
-          <input type = "text" placeholder="Your Username" name="name">
-          <input type = "text" placeholder="New Password" name="password">
-          <input type = "submit" value = "Update Password" class= "btn btn-secondary">
-        </form>
-      </div>
-    {% endblock %}
+
+    {%block title %} Create Account {% endblock %}
+      {%block content %}    
+        <div class = "container">
+          <h1> Create Account </h1>
+          <br/>
+          <form action="/createaccount" METHOD = "POST">
+            <input type = "text" placeholder="Your Username" name="new_name">
+            <input type = "text" placeholder="New Password" name="new_password">
+            <input type = "text" placeholder="Confirm New Password" name="conf_new_password">
+            <input type = "submit" value = "Create Account" class= "btn btn-secondary">
+          </form>
+        </div>
+      {% endblock %}
 
 
     
+
 
 
 

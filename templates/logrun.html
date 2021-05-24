@@ -2,24 +2,23 @@
 
 <html>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-
   <head>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>window.jQuery || document.write('<script src="{{url_for('static', filename='jquery.js') }}">\x3C/script>')</script>
+  
   </head>
 
 <!-- PUlled from an example from Bootstrap Website: https://getbootstrap.com/docs/4.0/components/navbar/ -->
 
   <body class = "body">
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-      <a class="navbar-brand" href="/">Home</a>
+      <a class="navbar-brand" href="/homepage">Home</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
 
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
-          <li class="nav-item active">
-            <a class="nav-link" href="/login">Log In<span class="sr-only">(current)</span></a>
-          </li>
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="/" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
               Choose what to do!
@@ -78,7 +77,10 @@
             ></progress>
         </div>
 
-
+      <div class="container">
+        <h3>Your Latitude is:<small id="lat"> 0 </small></h3>
+         <h3>Your Longitutde is:<small id ="long"> 0 </small></h3>
+      </div>
 
       {% endblock %}
 
@@ -95,12 +97,61 @@
         </div>
     
         <div class="container">
-          <button class="btn btn-success btn-block active" data-toggle="button" aria-pressed="false" autocomplete="off" onclick="startRun()">Start Your Run!</button>
+          <form action="" method="POST">
+          <button id="startrun" class="btn btn-success btn-block active" data-toggle="button" aria-pressed="false" autocomplete="off" onclick="startRun();return loadXMLDoc();">Start Your Run!</button>
+        </form>
         </div>
 
         <div class="container">
-          <button class="btn btn-danger btn-block active" data-toggle="button" aria-pressed="false" autocomplete="off" onclick="endRun()">End Run</button>
+          <button id="endrun" class="btn btn-danger btn-block active" data-toggle="button" aria-pressed="false" autocomplete="off" onclick="endRun()">End Run</button>
         </div>
+
+
+
+
+<script>
+    function loadXMLDoc()
+    {
+        var req = new XMLHttpRequest()
+        req.onreadystatechange = function()
+        {
+            if (req.readyState == 4)
+            {
+                if (req.status != 200)
+                {
+                    //error handling code here
+                }
+                else
+                {
+                    var response = JSON.parse(req.responseText)
+                    document.getElementById('lat').innerHTML = response.lat
+                    document.getElementById('long').innerHTML = response.long
+                    document.getElementById('myDiv').innerHTML = response.username
+                }
+            }
+        }
+    
+        req.open('POST', '/ajax')
+        req.setRequestHeader("Content-type", "application/x-www-form-urlencoded")
+        var un = document.getElementById('scname').value
+        var sec = document.getElementById('secret').value
+        var postVars = 'username='+un+'&secret='+sec
+        req.send(postVars)
+        
+        return false
+    }
+</script>
+
+<!-- <h1>Flask AJAX Test</h1>
+<form action="" method="POST">
+<input type="text" name="scname" id="scname">
+<input type="hidden" name="secret" id="secret" value="shhh">
+<input type="button" value="Submit" onclick="return loadXMLDoc()">
+</form> -->
+<div id="myDiv"></div>
+
+
+
 
 
 
@@ -115,6 +166,8 @@
 
     let flag = 0;
 
+    
+
     function startRun() {
       const interval = setInterval(function() {
       if (timerCounter >= 1000) {
@@ -122,7 +175,7 @@
       }
 
       timerCounter = timerCounter + 1;
-      distanceCounter = distanceCounter + 0.005;
+      distanceCounter = distanceCounter + 0.00;
       timerElement.innerText = timerCounter + "s";
       distanceElement.innerText = distanceCounter + " miles"
       progressBar.value = timerCounter;
