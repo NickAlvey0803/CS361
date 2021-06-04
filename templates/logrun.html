@@ -77,35 +77,7 @@
             ></progress>
         </div>
 
-      <div class="container">
-        <h3>Your Latitude is:<small id="lat"> 0 </small></h3>
-         <h3>Your Longitutde is:<small id ="long"> 0 </small></h3>
-      </div>
-
-      {% endblock %}
-
-      <br/>
-
-      <div class="container">
-
-        <form action="/workouts" METHOD = "POST">
-            <input type = "text" placeholder="Time" name="time">
-            <input type = "text" placeholder="Distance" name="distance">
-            <input type = "submit" value = "Log Run" class= "btn btn-secondary">
-
-          </form>
-        </div>
-    
-        <div class="container">
-          <form action="" method="POST">
-          <button id="startrun" class="btn btn-success btn-block active" data-toggle="button" aria-pressed="false" autocomplete="off" onclick="startRun();return loadXMLDoc();">Start Your Run!</button>
-        </form>
-        </div>
-
-        <div class="container">
-          <button id="endrun" class="btn btn-danger btn-block active" data-toggle="button" aria-pressed="false" autocomplete="off" onclick="endRun()">End Run</button>
-        </div>
-
+      
 
 
 
@@ -126,7 +98,6 @@
                     var response = JSON.parse(req.responseText)
                     document.getElementById('lat').innerHTML = response.lat
                     document.getElementById('long').innerHTML = response.long
-                    document.getElementById('myDiv').innerHTML = response.username
                 }
             }
         }
@@ -142,13 +113,41 @@
     }
 </script>
 
-<!-- <h1>Flask AJAX Test</h1>
-<form action="" method="POST">
-<input type="text" name="scname" id="scname">
-<input type="hidden" name="secret" id="secret" value="shhh">
-<input type="button" value="Submit" onclick="return loadXMLDoc()">
-</form> -->
-<div id="myDiv"></div>
+
+
+<div class="container">
+   <h3>Your Latitude is: </h3>
+   <span id="lat"> 0 </span>
+   <h3>Your Longitutde is: </h3>
+   <span id ="long"> 0 </span>
+</div>
+
+{% endblock %}
+
+<br/>
+
+<div class="container">
+
+  <form action="/workouts" METHOD = "POST">
+      <input type = "text" placeholder="Time" name="time">
+      <input type = "text" placeholder="Distance" name="distance">
+      <input type = "submit" value = "Log Run" class= "btn btn-secondary">
+
+    </form>
+  </div>
+
+  <div class="container">
+    <form action="" method="POST">
+    <input type="hidden" name="scname" id="scname">
+    <input type="hidden" name="secret" id="secret" value="shhh">
+    <input type="button" value="Start Run!" class="btn btn-success btn-block active" data-toggle="button" aria-pressed="false" autocomplete="off" onclick="startRun();return loadXMLDoc()">
+    </form>
+  </div>
+
+  <div class="container">
+    <button id="endrun" class="btn btn-danger btn-block active" data-toggle="button" aria-pressed="false" autocomplete="off" onclick="endRun()">End Run!</button>
+  </div>
+
 
 
 
@@ -156,10 +155,24 @@
 
 
   <script type="application/javascript">
+    let startflag = 0;
+    let lastlatt = 0;
+    let lastlongg = 0;
     const timerElement = document.getElementById("timer");
     const distanceElement = document.getElementById("timer2");
     const progressBar = document.getElementById("progressBar");
     const progressBar2 = document.getElementById("progressBar2");
+
+    if (startflag == 0) {
+      
+    } else {
+      let lastlatt = latt;
+      let lastlongg = longg;
+    }
+
+    const latt = parseFloat(document.getElementById("lat").innerHTML);
+    const longg = parseFloat(document.getElementById("long").innerHTML);
+
 
     let timerCounter = 0;
     let distanceCounter = 0.0;
@@ -173,9 +186,9 @@
       if (timerCounter >= 1000) {
         clearInterval(interval);
       }
-
+      startflag = 1;
       timerCounter = timerCounter + 1;
-      distanceCounter = distanceCounter + 0.00;
+      distanceCounter = distanceCounter + Math.sqrt(latt*latt + longg*longg) - Math.sqrt(lastlatt*lastlatt + lastlongg*lastlongg);
       timerElement.innerText = timerCounter + "s";
       distanceElement.innerText = distanceCounter + " miles"
       progressBar.value = timerCounter;
